@@ -1,0 +1,167 @@
+First Semester: A Section
+MON FEE OOPS Break CPI -- Lunch Break CAEG Lab (2-4 PM) (AB4 216)
+TUE OOPS Lab (9-11 AM) AB4 413 Lunch Break EVS CM Break OOPS ACE
+WED FEE EVS Break CM EMSB Lunch Break DV LAB (1:30-4:30 PM) AB5 414
+THU Break Lunch Break ACE CM Break FEE EMSB
+FRI EMSB CM Break OOPS ACE Lunch Break Break
+
+First Semester: B Section
+MON DV LAB (9-12 AM) AB5 414 Lunch Break OOPS ACE Break CM EMSB
+TUE FEE EMSB Break OOPS ACE Lunch Break Break
+WED CAEG Lab (11AM - 1 PM) (AB4 216) Lunch Break CM Break FEE EMSB
+THU OOPS EVS Break CM ACE Lunch Break Break
+FRI OOPS Lab (9-11 AM) AB4 413 Lunch Break FEE CM Break EVS CPI
+
+First Semester: C Section
+MON CM OOPS Break CPI -- Lunch Break DV LAB (1:30-4:30 PM) AB5 414
+TUE CAEG (9-11 AM) (AB4 216) Lunch Break ACE EMSB Break OOPS CM
+WED FEE EVS Break EMSB ACE Lunch Break Break
+THU OOPS Lab (9-11 AM) AB4 413 Lunch Break ACE CM Break FEE EVS
+FRI FEE CM Break OOPS EMSB Lunch Break Break
+
+First Semester: D Section
+MON Break Lunch Break OOPS EVS Break CM ACE
+TUE FEE CM Break OOPS EMSB Lunch Break (DV LAB 1:30-4:30 PM) AB5 414
+WED Break Lunch Break FEE EVS Break CM ACE
+THU OOPS EMSB Break CM Lunch Break CAEG Lab (2-4 PM) (AB4 216)
+FRI OOPS Lab (9-11 AM) AB5 413 Lunch Break EMSB ACE Break FEE CPI
+
+First Semester: E Section
+MON CM OOPS Break CPI -- Lunch Break Break
+TUE DV LAB (9-12 AM) AB5 414 Lunch Break FEE ACE Break CM EMSB
+WED OOPS EVS Break CM ACE Lunch Break Break
+THU OOPS Lab (9-11 AM) AB4 413 Lunch Break EVS EMSB Break FEE ACE
+FRI CM EMSB Break OOPS FEE Lunch Break CAEG (2-4 PM) (AB4 216)
+
+First Semester: F Section
+MON Break Lunch Break EMSB OOPS Break CM ACE
+TUE EVS CM Break EMSB FEE Lunch Break Break
+WED DV LAB (9-12 AM) AB5 414 Lunch Break OOPS ACE Break FEE EVS
+THU OOPS EMSB Break CM FEE Lunch Break OOPS Lab (2-4 PM) AB4 413
+FRI CAEG (11-1 PM) (AB5 403) Lunch Break CM Break ACE CPI
+
+First Semester: G Section
+MON ACE OOPS Break CPI -- Lunch Break DV LAB (1:30-4:30 PM) AB5 410
+TUE Break Lunch Break OOPS ACE Break CM FEE
+WED FEE EVS Break CM EMSB Lunch Break Break
+THU CAEG (9-11 AM) (AB1:102) Lunch Break EVS EMSB Break ACE CM
+FRI CM FEE Break OOPS EMSB Lunch Break OOPS Lab (2-4 PM) AB4 413
+
+First Semester: H Section
+MON Break Lunch Break OOPS EMSB Break CM ACE
+TUE FEE EVS Break OOPS -- Lunch Break Break
+WED DV LAB (9-12 AM) AB5 410 Lunch Break CM ACE Break FEE EVS
+THU OOPS EMSB Break CM ACE Lunch Break OOPS Lab (2 - 4 PM) AB5 413
+FRI CAEG (9-11 AM) (H1- AB4 305; H2- AB4 306) Lunch Break EMSB CM Break FEE CPI
+
+First Semester: I Section
+MON FEE OOPS Break CPI -- Lunch Break CAEG (2-4 PM) (Sec I1&I2 - Room #305 & #306)
+TUE Break Lunch Break EMSB CM Break OOPS ACE
+WED FEE EVS Break CM EMSB Lunch Break Break
+THU DV LAB (9-12 AM) AB5 414 Lunch Break ACE EVS Break OOPS CM
+FRI CM FEE Break EMSB ACE Lunch Break OOPS Lab (2-4 PM) AB5 413
+
+First Semester: J Section
+MON Chem Lab (J1) (9-11 AM) Lunch Break BET MAT Break EVS PSUC
+TUE PSUC BIO Break BET CHEM Lunch Break PSUC Lab (2-4 PM) AB5 411
+WED Break Lunch Break CHEM EVS Break BIO MAT
+THU BET BIO Break PSUC MAT Lunch Break Chem Lab (J2) (2-4 PM)
+FRI EG – II Lab (11 AM - 1 PM) (AB4 216) Lunch Break CHEM Break MAT CPI
+
+First Semester: K Section
+MON CHE MAT Break CPI Lunch Break Chem Lab (K2) (2:00-4:00)
+TUE PSUC Lab (9-11) AB5 411 Lunch Break MAT BIO Break BET EVS
+WED CHE PSUC Break BET BIO Lunch Break EG – II Lab (2-4) (AB4 216)
+THU Chem Lab (K1) (9-11) Lunch Break EVS MAT Break PSUC BET
+FRI BIO MAT Break CHE PSUC Lunch Break
+
+First Semester: L Section
+MON Lunch Break BIO PSUC Break BET MAT
+TUE CHE BET Break MAT PSUC Lunch Break EG – II Lab (2-4) (AB4 216)
+WED Chem Lab (L2) (9-11) Lunch Break BET BIO Break CHE EVS
+THU MAT PSUC Break CHE -- Lunch Break PSUC Lab (2-4) AB5 411
+FRI Chem Lab (L1) (9-11) Lunch Break MAT EVS Break BIO CPI
+
+First Semester: M Section
+MON CM FE Break CPI -- Lunch Break BWP Lab (2-4) (AB4- 001)
+TUE OOPS Lab (9-11) AB5 413 Lunch Break FME OOPS Break ENG APE
+WED CM FME Break FE OOPS Lunch Break DV LAB (1:30-4:30 PM) AB5 410
+THU Lunch Break FME FE Break CM APE
+FRI ENG OOPS Break APE CM Lunch Break
+
+First Semester: N Section
+MON BWP Lab (9-11 AM) ( AB4- 001) Lunch Break FE ENG Break CM OOPS
+TUE - CM Break APE FME Lunch Break OOPS Lab (2-4 PM) AB5 413
+WED Break Lunch Break APE OOPS Break FME FE
+THU CM FE Break APE OOPS Lunch Break DV LAB (1:30 – 4:30 PM) AB5 414
+FRI Break Lunch Break FME CM Break ENG CPI
+
+First Semester: O Section
+MON FME APE Break CPI -- Lunch Break OOPS Lab (2-4 PM) AB5 413
+TUE BWP Lab (9-11 AM) (AB4- 001) Lunch Break FE OOPS Break APE CM
+WED CM FME Break FE OOPS Lunch Break Break
+THU Break Lunch Break ENG APE Break CM FME
+FRI FE OOPS Break CM ENG Lunch Break DV LAB (1:30-4:30 PM) AB5 414
+
+First Semester: P Section
+MON OOPS Lab (9-11 AM) AB4 413 -- Lunch Break CM APE Break FE OOPS
+TUE FE ENG Break FME OOPS Lunch Break Break
+WED BWP Lab (11 - 1 PM) (AB4- 001) Lunch Break CM Break FME ENG
+THU CM FE Break APE OOPS Lunch Break Break
+FRI DV LAB (9-12 AM) AB5 414 Lunch Break FME APE Break CM CPI
+
+First Semester: Q Section
+MON APE OOPS Break CPI -- Lunch Break OOPS Lab (2-4) AB4 413
+TUE DV LAB (9-12 AM) AB5 410 Lunch Break OOPS FME Break FE CM
+WED FE CM Break ENG OOPS Lunch Break BWP Lab (2-4) ( AB4- 001)
+THU Break Lunch Break FME APE Break CM ENG
+FRI FE FME Break CM APE Lunch Break Break
+
+First Semester: R Section
+MON DV LAB (9 AM – 12 Noon) AB5 410 Lunch Break APE CM Break FME OOPS
+TUE FME FE Break CM APE Lunch Break Break
+WED OOPS Lab (9-11) AB5 413 Lunch Break FME ENG Break FE OOPS
+THU CM APE Break ENG OOPS Lunch Break Break
+FRI BWP Lab (11-1) (AB4 001) Lunch Break FE Break CM CPI
+
+First Semester: S Section
+MON CM FE Break CPI -- Lunch Break Break
+TUE Break Lunch Break ENG OOPS Break FME FE
+WED CM ENG Break APE FME Lunch Break OOPS Lab (2-4) AB5 413
+THU BWP Lab (9-11) ( AB4 001) Lunch Break FME APE Break CM OOPS
+FRI FE CM Break APE OOPS Lunch Break DV LAB (1:30-4:30 PM) AB5 410
+
+First Semester: T Section
+MON Break Lunch Break CM FME Break ENG OOPS
+TUE FE OOPS Break CM FME Lunch Break Break
+WED OOPS LAB (9-11) AB4 413 Lunch Break FE OOPS Break APE CM
+THU APE ENG Break FE CM Lunch Break DV LAB (1:30-4:30 PM) AB5 410
+FRI BWP Lab (9-11) (AB4 001) Lunch Break FME APE Break CPI
+
+First Semester: U Section
+MON CM FME Break CPI -- Lunch Break Break
+TUE Break Lunch Break CM APE Break FE OOPS
+WED APE CM Break FE OOPS Lunch Break OOPS Lab (2-4) AB4 413
+THU DV LAB (9-12 AM) AB5 410 Lunch Break FME OOPS Break CM ENG
+FRI FE APE Break ENG FME Lunch Break BWP (2-4) (AB4 001)
+
+First Semester: V Section
+MON Break Lunch Break MOS ENG Break PHY MAT
+TUE BME ENG Break BE MAT Lunch Break Break
+WED EG - II (9-11) (AB4 216) Lunch Break MOS BE Break BME PHY
+THU BE PHY Break MAT Lunch Break BWP (2-4) (AB4 001)
+FRI PHY Lab (9-11) (AB4 218) Lunch Break BME MOS Break MAT CPI
+
+First Semester: W Section
+MON BE BME Break CPI -- Lunch Break Break
+TUE Break BWP (11 - 1) (AB4 001) Lunch Break MOS Break MAT PHY
+WED PHY MAT Break ENG BE Lunch Break Break
+THU EG – II (9-11 AM) (AB4 216) PHY (214) Lunch Break BME ENG Break MOS MAT
+FRI BME BE Break MOS MAT Lunch Break PHY Lab (2-4 PM) (AB4 218)
+
+First Semester: X Section
+MON EG – II (9-11) (AB4 216) Lunch Break MAT PHY Break MOS BE
+TUE BME MAT Break ENG PHY Lunch Break BWP (2-4) (AB4 001)
+WED PHY Lab (10 - 12) (AB4 218) Lunch Break MOS Break BME ENG
+THU MAT PHY Break MOS BE Lunch Break Break
+FRI Break Lunch Break BE MAT Break BME CPI
