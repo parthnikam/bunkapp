@@ -102,6 +102,37 @@ class BunkedClassesNotifier extends StateNotifier<Map<int, Set<String>>> {
     _scheduleSave();
   }
 
+  void setBunksForSubject(
+    Iterable<int> days,
+    String subject, {
+    required bool bunked,
+  }) {
+    final newState = {
+      for (final entry in state.entries)
+        entry.key: Set<String>.from(entry.value),
+    };
+    var changed = false;
+
+    for (final day in days) {
+      final daySet = Set<String>.from(newState[day] ?? {});
+      if (bunked) {
+        changed = daySet.add(subject) || changed;
+      } else {
+        changed = daySet.remove(subject) || changed;
+      }
+
+      if (daySet.isEmpty) {
+        newState.remove(day);
+      } else {
+        newState[day] = daySet;
+      }
+    }
+
+    if (!changed) return;
+    state = newState;
+    _scheduleSave();
+  }
+
   void toggleBunkWholeDay(int day, List<String> classes) {
     final newState = Map<int, Set<String>>.from(state);
     final daySet = Set<String>.from(newState[day] ?? {});

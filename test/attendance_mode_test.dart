@@ -44,6 +44,36 @@ void main() {
   });
 
   group('Attendance calculation tests', () {
+    test(
+      'Batch subject bunk updates preserve other records and persist',
+      () async {
+        final startDate = DateTime(2026, 1, 1);
+        final notifier = BunkedClassesNotifier();
+        await notifier.initialize(startDate);
+        notifier.state = {
+          1: {'Maths', 'Physics'},
+          2: {'Physics'},
+        };
+
+        notifier.setBunksForSubject([1], 'Maths', bunked: false);
+        notifier.setBunksForSubject([3], 'Maths', bunked: true);
+
+        expect(notifier.state, {
+          1: {'Physics'},
+          2: {'Physics'},
+          3: {'Maths'},
+        });
+
+        await Future<void>.delayed(const Duration(milliseconds: 600));
+        final prefs = await SharedPreferences.getInstance();
+        final persistedBunks = prefs.getString('bunked_classes_data')!;
+        expect(persistedBunks, contains('2026-01-01'));
+        expect(persistedBunks, contains('2026-01-03'));
+        expect(persistedBunks, contains('Physics'));
+        expect(persistedBunks, contains('Maths'));
+      },
+    );
+
     test('Calculates overall attendance vs current attendance correctly', () {
       final container = ProviderContainer(
         overrides: [
@@ -57,7 +87,13 @@ void main() {
                 4: [ClassSlot(name: 'Maths', timeRange: '9-10 AM')],
               },
               {
-                'Maths': Subject('Maths', 4, 0, heldClasses: 0, faculty: 'Prof X'),
+                'Maths': Subject(
+                  'Maths',
+                  4,
+                  0,
+                  heldClasses: 0,
+                  faculty: 'Prof X',
+                ),
               },
             ),
           ),

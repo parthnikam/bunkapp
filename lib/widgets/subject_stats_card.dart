@@ -34,7 +34,7 @@ class SubjectStatsCard extends ConsumerWidget {
     final barFactor = stats.percentage.clamp(0.0, 1.0);
 
     return GestureDetector(
-      onTap: () => _showSubjectDetails(context, ref, progressColor),
+      onTap: () => _showSubjectDetails(context, ref),
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
         padding: const EdgeInsets.all(16),
@@ -139,17 +139,14 @@ class SubjectStatsCard extends ConsumerWidget {
     );
   }
 
-  void _showSubjectDetails(
-    BuildContext context,
-    WidgetRef ref,
-    Color progressColor,
-  ) {
+  void _showSubjectDetails(BuildContext context, WidgetRef ref) {
     // Missed-date list is only needed on open — keep list scroll free of it.
     final scheduleData = ref.read(scheduleDataProvider);
-    final bunkedClasses = ref.read(bunkedProvider);
     final settings = ref.read(settingsProvider);
     final uiState = ref.read(uiProvider);
     final faculty = stats.faculty;
+    final holidays = ref.read(allHolidaysProvider);
+    final exams = ref.read(examsProvider);
 
     bool isDayInFilter(int day) {
       if (statsFilter == 'This Week') {
@@ -169,6 +166,7 @@ class SubjectStatsCard extends ConsumerWidget {
     Future<List<DateTime>> fetchMissedDates() async {
       return await Future.microtask(() {
         final missedDates = <DateTime>[];
+        final bunkedClasses = ref.read(bunkedProvider);
         for (var day in scheduleData.schedule.keys) {
           if (day > uiState.todayDay) continue;
           if (!isDayInFilter(day)) continue;
@@ -207,208 +205,468 @@ class SubjectStatsCard extends ConsumerWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      isDismissible: true,
       backgroundColor: Colors.transparent,
-      builder: (context) {
-        final bottomInset = MediaQuery.of(context).padding.bottom;
-        final maxHeight = MediaQuery.of(context).size.height * 0.85;
+      builder: (_) => StatefulBuilder(
+        builder: (context, setModalState) {
+          final currentStats = _currentSubjectStats(ref, stats, statsFilter);
+          final currentProgressColor =
+              currentStats.percentage < desiredPercentage
+              ? BunkTheme.of(context).red
+              : currentStats.percentage >= desiredPercentage + 0.05
+              ? BunkTheme.of(context).green
+              : BunkTheme.of(context).yellow;
+          final bottomInset = MediaQuery.of(context).padding.bottom;
+          final maxHeight = MediaQuery.of(context).size.height * 0.85;
 
-        return Align(
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            width: double.infinity,
-            constraints: BoxConstraints(maxHeight: maxHeight),
-            decoration: BoxDecoration(
-              color: BunkTheme.of(context).white,
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(24),
+          return Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              width: double.infinity,
+              constraints: BoxConstraints(maxHeight: maxHeight),
+              decoration: BoxDecoration(
+                color: BunkTheme.of(context).white,
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(24),
+                ),
               ),
-            ),
-            // Fixed handle + scrollable body so long content (missed dates)
-            // is never clipped below the fold.
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 12, bottom: 8),
-                  child: Center(
-                    child: Container(
-                      width: 40,
-                      height: 5,
-                      decoration: BoxDecoration(
-                        color: BunkTheme.of(context).lightGrey,
-                        borderRadius: BorderRadius.circular(10),
+              // Fixed handle + scrollable body so long content (missed dates)
+              // is never clipped below the fold.
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 12, bottom: 8),
+                    child: Center(
+                      child: Container(
+                        width: 40,
+                        height: 5,
+                        decoration: BoxDecoration(
+                          color: BunkTheme.of(context).lightGrey,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Flexible(
-                  child: SingleChildScrollView(
-                    padding: EdgeInsets.fromLTRB(24, 8, 24, bottomInset + 24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          stats.name.toUpperCase(),
-                          style: BunkTheme.of(
-                            context,
-                          ).bodyBold.copyWith(fontSize: 24),
-                        ),
-                        if (faculty.isNotEmpty) ...[
-                          const SizedBox(height: 6),
+                  Flexible(
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.fromLTRB(24, 8, 24, bottomInset + 24),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           Text(
-                            faculty,
-                            style: BunkTheme.of(context).body.copyWith(
-                              color: BunkTheme.of(context).grey,
-                              fontSize: 15,
-                            ),
+                            stats.name.toUpperCase(),
+                            style: BunkTheme.of(
+                              context,
+                            ).bodyBold.copyWith(fontSize: 24),
                           ),
-                        ],
-                        const SizedBox(height: 8),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
+                          if (faculty.isNotEmpty) ...[
+                            const SizedBox(height: 6),
                             Text(
-                              '${(stats.percentage * 100).toStringAsFixed(1)}%',
-                              style: BunkTheme.of(context).bodyBold.copyWith(
-                                fontSize: 36,
-                                color: progressColor,
-                                height: 1.0,
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 4.0),
-                              child: Text(
-                                'Attendance',
-                                style: BunkTheme.of(context).body.copyWith(
-                                  color: BunkTheme.of(context).grey,
-                                ),
+                              faculty,
+                              style: BunkTheme.of(context).body.copyWith(
+                                color: BunkTheme.of(context).grey,
+                                fontSize: 15,
                               ),
                             ),
                           ],
-                        ),
-                        const SizedBox(height: 24),
-                        // if (faculty.isNotEmpty)
-                        // _buildDetailRow(context, 'Faculty', faculty),
-                        _buildDetailRow(
-                          context,
-                          'Total Classes',
-                          stats.totalClasses.toString(),
-                        ),
-                        _buildDetailRow(
-                          context,
-                          'Classes Held',
-                          stats.heldClasses.toString(),
-                        ),
-                        _buildDetailRow(
-                          context,
-                          'Attended',
-                          stats.attended.toString(),
-                        ),
-                        _buildDetailRow(
-                          context,
-                          'Missed',
-                          stats.skipped.toString(),
-                          textColor: BunkTheme.of(context).red,
-                        ),
-                        const SizedBox(height: 16),
-                        const Divider(),
-                        const SizedBox(height: 16),
-                        _buildInfoCard(
-                          context,
-                          'Skip Balance',
-                          '${stats.skipBalance} classes',
-                          Icons.event_available,
-                        ),
-                        const SizedBox(height: 12),
-
-                        // _buildInfoCard(
-                        //   context,
-                        //   'To reach ${(desiredPercentage * 100).round()}%',
-                        //   '${stats.classesToAttend} classes in a row',
-                        //   Icons.trending_up,
-                        // ),
-                        const SizedBox(height: 24),
-                        Text(
-                          'Missed Dates',
-                          style: BunkTheme.of(
-                            context,
-                          ).bodyBold.copyWith(fontSize: 18),
-                        ),
-                        const SizedBox(height: 12),
-                        FutureBuilder<List<DateTime>>(
-                          future: fetchMissedDates(),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const Padding(
-                                padding: EdgeInsets.all(16.0),
-                                child: Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                              );
-                            }
-
-                            final missedDatesList = snapshot.data ?? [];
-
-                            if (missedDatesList.isEmpty) {
-                              return Text(
-                                'No missed classes for this subject!',
-                                style: BunkTheme.of(context).body.copyWith(
-                                  color: BunkTheme.of(context).green,
-                                ),
-                              );
-                            }
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: List<Widget>.generate(
-                                missedDatesList.length,
-                                (index) {
-                                  return Column(
-                                    children: [
-                                      if (index > 0) const Divider(),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 8.0,
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              Icons.event_busy,
-                                              color: BunkTheme.of(context).red,
-                                              size: 20,
-                                            ),
-                                            const SizedBox(width: 12),
-                                            Expanded(
-                                              child: Text(
-                                                formatDate(
-                                                  missedDatesList[index],
-                                                ),
-                                                style: BunkTheme.of(
-                                                  context,
-                                                ).body,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
+                          const SizedBox(height: 8),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    onDoubleTap: () async {
+                                      await _editAttendancePercentage(
+                                        context,
+                                        ref,
+                                        stats,
+                                        statsFilter,
+                                        scheduleData.schedule,
+                                        settings.startDate,
+                                        uiState.todayDay,
+                                        holidays,
+                                        exams,
+                                      );
+                                      setModalState(() {});
+                                    },
+                                    child: Text(
+                                      '${(currentStats.percentage * 100).toStringAsFixed(1)}%',
+                                      style: BunkTheme.of(context).bodyBold
+                                          .copyWith(
+                                            fontSize: 36,
+                                            color: currentProgressColor,
+                                            height: 1.0,
+                                          ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    'DOUBLE TAP TO EDIT',
+                                    style: BunkTheme.of(context).body.copyWith(
+                                      color: BunkTheme.of(context).grey,
+                                      fontSize: 9,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            );
-                          },
-                        ),
-                      ],
+                              const SizedBox(width: 8),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 4.0),
+                                child: Text(
+                                  'Attendance',
+                                  style: BunkTheme.of(context).body.copyWith(
+                                    color: BunkTheme.of(context).grey,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 24),
+                          // if (faculty.isNotEmpty)
+                          // _buildDetailRow(context, 'Faculty', faculty),
+                          _buildDetailRow(
+                            context,
+                            'Total Classes',
+                            currentStats.totalClasses.toString(),
+                          ),
+                          _buildDetailRow(
+                            context,
+                            'Classes Held',
+                            currentStats.heldClasses.toString(),
+                          ),
+                          _buildDetailRow(
+                            context,
+                            'Attended',
+                            currentStats.attended.toString(),
+                          ),
+                          _buildDetailRow(
+                            context,
+                            'Missed',
+                            currentStats.skipped.toString(),
+                            textColor: BunkTheme.of(context).red,
+                          ),
+                          const SizedBox(height: 16),
+                          const Divider(),
+                          const SizedBox(height: 16),
+                          _buildInfoCard(
+                            context,
+                            'Skip Balance',
+                            '${currentStats.skipBalance} classes',
+                            Icons.event_available,
+                          ),
+                          const SizedBox(height: 12),
+
+                          // _buildInfoCard(
+                          //   context,
+                          //   'To reach ${(desiredPercentage * 100).round()}%',
+                          //   '${stats.classesToAttend} classes in a row',
+                          //   Icons.trending_up,
+                          // ),
+                          const SizedBox(height: 24),
+                          Text(
+                            'Missed Dates',
+                            style: BunkTheme.of(
+                              context,
+                            ).bodyBold.copyWith(fontSize: 18),
+                          ),
+                          const SizedBox(height: 12),
+                          FutureBuilder<List<DateTime>>(
+                            future: fetchMissedDates(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Padding(
+                                  padding: EdgeInsets.all(16.0),
+                                  child: Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                );
+                              }
+
+                              final missedDatesList = snapshot.data ?? [];
+
+                              if (missedDatesList.isEmpty) {
+                                return Text(
+                                  'No missed classes for this subject!',
+                                  style: BunkTheme.of(context).body.copyWith(
+                                    color: BunkTheme.of(context).green,
+                                  ),
+                                );
+                              }
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: List<Widget>.generate(
+                                  missedDatesList.length,
+                                  (index) {
+                                    return Column(
+                                      children: [
+                                        if (index > 0) const Divider(),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0,
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                Icons.event_busy,
+                                                color: BunkTheme.of(
+                                                  context,
+                                                ).red,
+                                                size: 20,
+                                              ),
+                                              const SizedBox(width: 12),
+                                              Expanded(
+                                                child: Text(
+                                                  formatDate(
+                                                    missedDatesList[index],
+                                                  ),
+                                                  style: BunkTheme.of(
+                                                    context,
+                                                  ).body,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
+          );
+        },
+      ),
+    );
+  }
+
+  SubjectStatSummary _currentSubjectStats(
+    WidgetRef ref,
+    SubjectStatSummary fallback,
+    String filter,
+  ) {
+    final filteredStats = ref.read(filteredStatsProvider);
+    if (filteredStats.filter == filter) {
+      for (final subjectStats in filteredStats.subjectStats) {
+        if (subjectStats.name == fallback.name) return subjectStats;
+      }
+    }
+    return fallback;
+  }
+
+  Future<void> _editAttendancePercentage(
+    BuildContext context,
+    WidgetRef ref,
+    SubjectStatSummary initialStats,
+    String filter,
+    Map<int, List<ClassSlot>> schedule,
+    DateTime startDate,
+    int todayDay,
+    Set<DateTime> holidays,
+    Map<DateTime, String> exams,
+  ) async {
+    var inputValue = (initialStats.percentage * 100).toStringAsFixed(1);
+    String? validationError;
+    final targetPercentage = await showDialog<double>(
+      context: context,
+      builder: (dialogContext) => StatefulBuilder(
+        builder: (dialogContext, setDialogState) => AlertDialog(
+          title: const Text('Edit attendance'),
+          content: TextFormField(
+            initialValue: inputValue,
+            autofocus: true,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            onChanged: (value) => inputValue = value,
+            decoration: InputDecoration(
+              labelText: 'Attendance percentage',
+              suffixText: '%',
+              errorText: validationError,
+            ),
+            onFieldSubmitted: (value) {
+              inputValue = value;
+              final parsed = double.tryParse(inputValue.trim());
+              if (parsed == null ||
+                  !parsed.isFinite ||
+                  parsed < 0 ||
+                  parsed > 100) {
+                setDialogState(() {
+                  validationError = 'Enter a value from 0 to 100.';
+                });
+                return;
+              }
+              Navigator.of(dialogContext).pop(parsed / 100);
+            },
           ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                final parsed = double.tryParse(inputValue.trim());
+                if (parsed == null ||
+                    !parsed.isFinite ||
+                    parsed < 0 ||
+                    parsed > 100) {
+                  setDialogState(() {
+                    validationError = 'Enter a value from 0 to 100.';
+                  });
+                  return;
+                }
+                Navigator.of(dialogContext).pop(parsed / 100);
+              },
+              child: const Text('Apply'),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (!context.mounted) return;
+    if (targetPercentage == null) return;
+
+    final currentStats = _currentSubjectStats(ref, initialStats, filter);
+    final settings = ref.read(settingsProvider);
+    final denominator = settings.showCurrentAttendance
+        ? currentStats.heldClasses
+        : currentStats.totalClasses;
+    if (denominator == 0) {
+      _showAttendanceEditResult(
+        context,
+        'No classes in this period',
+        'There are no classes to adjust for this subject.',
+      );
+      return;
+    }
+
+    final targetMissed = denominator - (targetPercentage * denominator).round();
+    final difference = targetMissed - currentStats.skipped;
+    if (difference == 0) {
+      _showAttendanceEditResult(
+        context,
+        'Attendance unchanged',
+        'This is already the closest possible attendance to the value entered.',
+      );
+      return;
+    }
+
+    final candidates = <int, int>{};
+    for (final entry in schedule.entries) {
+      final day = entry.key;
+      if (day > todayDay || !_isDayInFilter(day, filter, startDate, todayDay)) {
+        continue;
+      }
+      final date = dateFromDayIndex(startDate, day);
+      if (isHolidayDate(holidays, date) || exams.containsKey(dateOnly(date))) {
+        continue;
+      }
+      final subjectCount = entry.value
+          .where((slot) => slot.name == currentStats.name)
+          .length;
+      if (subjectCount == 0) continue;
+
+      final isBunked =
+          ref.read(bunkedProvider)[day]?.contains(currentStats.name) == true;
+      if ((difference > 0 && !isBunked) || (difference < 0 && isBunked)) {
+        candidates[day] = subjectCount;
+      }
+    }
+
+    final orderedDays = candidates.keys.toList()
+      ..sort((a, b) => b.compareTo(a));
+    final daysToChange = <int>[];
+    var changedClasses = 0;
+    var bestError = difference.abs();
+    for (final day in orderedDays) {
+      daysToChange.add(day);
+      changedClasses += candidates[day]!;
+      final error = (difference.abs() - changedClasses).abs();
+      if (error < bestError) {
+        bestError = error;
+      } else {
+        daysToChange.removeLast();
+        changedClasses -= candidates[day]!;
+        if (changedClasses >= difference.abs()) break;
+      }
+    }
+
+    if (daysToChange.isEmpty) {
+      _showAttendanceEditResult(
+        context,
+        'No past classes to adjust',
+        'No eligible past class dates in this period can be changed.',
+      );
+      return;
+    }
+
+    ref
+        .read(bunkedProvider.notifier)
+        .setBunksForSubject(
+          daysToChange,
+          currentStats.name,
+          bunked: difference > 0,
         );
-      },
+    final updatedStats = _currentSubjectStats(ref, currentStats, filter);
+    final actualPercentage = updatedStats.percentage * 100;
+    final actualLabel = actualPercentage.toStringAsFixed(1);
+    final targetLabel = (targetPercentage * 100).toStringAsFixed(1);
+    _showAttendanceEditResult(
+      context,
+      actualLabel == targetLabel
+          ? 'Attendance updated'
+          : 'Closest possible attendance',
+      'Attendance is now $actualLabel%. '
+      '${daysToChange.length} most recent past date(s) were adjusted.',
+    );
+  }
+
+  bool _isDayInFilter(
+    int day,
+    String filter,
+    DateTime startDate,
+    int todayDay,
+  ) {
+    if (filter == 'This Week') {
+      return (day - 1) ~/ 7 == (todayDay - 1) ~/ 7;
+    }
+    if (filter == 'This Month') {
+      final todayDate = dateFromDayIndex(startDate, todayDay);
+      final date = dateFromDayIndex(startDate, day);
+      return date.year == todayDate.year && date.month == todayDate.month;
+    }
+    return true;
+  }
+
+  void _showAttendanceEditResult(
+    BuildContext context,
+    String title,
+    String message,
+  ) {
+    showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Done'),
+          ),
+        ],
+      ),
     );
   }
 
